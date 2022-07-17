@@ -9,6 +9,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/guards/jwt.guard';
 import { typeOrmAsyncConfig } from './config/typeorm.config';
+import { CountryModule } from './country/country.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { typeOrmAsyncConfig } from './config/typeorm.config';
     TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     UserModule,
     AuthModule,
+    CountryModule,
   ],
   controllers: [AppController],
   providers: [
