@@ -2,31 +2,29 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Statistics } from '../../statistics/entity/statistics.entity';
+import { Country } from '../../country/entity/country.entity';
 
-interface NameProperties {
-  [key: string]: string;
-}
 @Entity()
-export class Country {
+export class Statistics {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  code: string;
+  @Column({ type: 'int' })
+  confirmed: number;
 
-  @Column({ type: 'jsonb' })
-  name: NameProperties;
+  @Column({ type: 'int' })
+  recovered: number;
 
-  @OneToMany(() => Statistics, (statistics) => statistics.country, {
-    onDelete: 'CASCADE',
-  })
-  statistics: Statistics[];
+  @Column({ type: 'int' })
+  critical: number;
+
+  @Column({ type: 'int' })
+  deaths: number;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -42,4 +40,7 @@ export class Country {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+
+  @ManyToOne(() => Country, (country) => country.statistics)
+  country: Country;
 }
