@@ -18,7 +18,7 @@ export const typeOrmAsyncConfig = {
       },
       synchronize: false,
       migration: true,
-      logging: true,
+      logging: false,
     };
   },
 };
@@ -35,10 +35,7 @@ export const typeOrmConfig = {
   cli: {
     migrationsDir: __dirname + '/../database/migrations',
   },
-  extra: {
-    charset: 'utf8mb4_unicode_ci',
-  },
   synchronize: false,
   migration: true,
-  logging: true,
+  logging: false,
 };

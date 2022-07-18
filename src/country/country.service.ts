@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 import { Repository } from 'typeorm';
+
 import { Country } from './entity/country.entity';
 
 @Injectable()
@@ -12,6 +13,7 @@ export class CountryService implements OnModuleInit {
     private readonly countryRepository: Repository<Country>,
     private readonly configService: ConfigService,
   ) {}
+
   async onModuleInit() {
     const count = await this.countryRepository.count();
 
@@ -34,5 +36,9 @@ export class CountryService implements OnModuleInit {
 
   getAll() {
     return this.countryRepository.find();
+  }
+
+  getByCode(code: string) {
+    return this.countryRepository.findOne({ where: { code } });
   }
 }
