@@ -1,3 +1,4 @@
+import { GET_ALL_LATEST_QUERY } from './queries/get-all-latest.query';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
@@ -82,5 +83,9 @@ export class StatisticsService {
       GET_TOTAL_STATISTICS_QUERY,
     );
     return data?.[0];
+  }
+
+  getLatest() {
+    return this.statisticsRepository.query(GET_ALL_LATEST_QUERY);
   }
 }

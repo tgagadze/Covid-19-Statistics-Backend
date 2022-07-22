@@ -29,13 +29,13 @@ export class AuthService {
     const user = await this.userService.getByEmail(email);
 
     if (!user) {
-      throw new ForbiddenException('invalid credentials');
+      throw new ForbiddenException('invalid.credentials');
     }
 
     const passwordsMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordsMatch) {
-      throw new ForbiddenException('invalid credentials');
+      throw new ForbiddenException('invalid.credentials');
     }
 
     const accessToken = await this.createAccessToken(user);
@@ -44,6 +44,9 @@ export class AuthService {
     return { accessToken, user: rest };
   }
 
+  async getUserById(id: number): Promise<Omit<User, 'password'>> {
+    return this.userService.getById(id);
+  }
   private async createAccessToken(user: User) {
     const { email, id } = user;
     const access_token = await this.jwtService.sign(

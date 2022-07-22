@@ -15,4 +15,9 @@ export class StatisticsController {
   getTotalStatistics() {
     return this.statisticsService.getTotalStatistics();
   }
+
+  @Get('/latest')
+  getLatest() {
+    return this.statisticsService.getLatest();
+  }
 }
