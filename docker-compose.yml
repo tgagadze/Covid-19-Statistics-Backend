@@ -1,6 +1,7 @@
 version: '3'
 services:
   db:
+    container_name: covid_statistics_db
     image: postgres:13
     ports:
       - 5432:5432

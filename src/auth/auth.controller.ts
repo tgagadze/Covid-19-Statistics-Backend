@@ -9,6 +9,7 @@ import { SignInDto, SignUpDto } from './dto';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
   @Public()
   @Post('signup')
   signUp(@Body() signUpDto: SignUpDto) {

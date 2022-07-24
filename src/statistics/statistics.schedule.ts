@@ -3,6 +3,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 
 import { CountryService } from '../country/country.service';
 import { StatisticsService } from './statistics.service';
+import { timeElapsed } from '../utils';
 
 @Injectable()
 export class StatisticsSchedule {
@@ -13,15 +14,18 @@ export class StatisticsSchedule {
 
   @Cron(CronExpression.EVERY_HOUR)
   async updateStatistics() {
-    console.log('running cron...');
+    console.log('fetching statistics...');
+    const start = new Date();
     const allCountries = await this.countryService.getAll();
-    const start = new Date().getTime();
+
     const data = await Promise.all(
       allCountries.map((c) =>
         this.statisticsService.getByCountryCodeFromApi(c.code),
       ),
     );
+
+    console.log('Fetching ended in: ', timeElapsed(start), ' seconds');
+
     this.statisticsService.updateStatistics(data);
-    console.log('ended in : ', (new Date().getTime() - start) / 1000);
   }
 }

@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 
 import { User } from '../user/entity/user.entity';
 import { UserService } from '../user/user.service';
-import { SignInDto, SignUpDto } from './dto';
+import { SignInDto, SignInPayload, SignUpDto } from './dto';
 
 @Injectable()
 export class AuthService {
@@ -19,12 +19,11 @@ export class AuthService {
     const { email, password: userPassword } = signUpDto;
     const hashedPassword = await bcrypt.hash(userPassword, 10);
     const user = await this.userService.create(email, hashedPassword);
-    const { password, ...rest } = user;
-    const accessToken = await this.createAccessToken(user);
-    return { user: rest, accessToken };
+    const { password: _, ...rest } = user;
+    return rest as User;
   }
 
-  async signIn(signInDto: SignInDto) {
+  async signIn(signInDto: SignInDto): Promise<SignInPayload> {
     const { email, password } = signInDto;
     const user = await this.userService.getByEmail(email);
 
@@ -39,14 +38,15 @@ export class AuthService {
     }
 
     const accessToken = await this.createAccessToken(user);
-    const { password: userPassword, ...rest } = user;
+    const { password: _, ...rest } = user;
 
-    return { accessToken, user: rest };
+    return { accessToken, user: rest as User };
   }
 
-  async getUserById(id: number): Promise<Omit<User, 'password'>> {
+  async getUserById(id: number): Promise<User> {
     return this.userService.getById(id);
   }
+
   private async createAccessToken(user: User) {
     const { email, id } = user;
     const access_token = await this.jwtService.sign(
