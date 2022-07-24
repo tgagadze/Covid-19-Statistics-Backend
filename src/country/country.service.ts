@@ -31,7 +31,9 @@ export class CountryService implements OnModuleInit {
         });
         this.countryRepository.insert(countries);
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log('error fetching countries');
+    }
   }
 
   getAll() {

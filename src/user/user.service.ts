@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -10,15 +10,7 @@ export class UserService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
   async create(email: string, password: string) {
-    const existing = await this.userRepository.findOne({ where: { email } });
-    if (existing) {
-      throw new ForbiddenException('email.already.registered');
-    }
-
-    const user = new User();
-    user.email = email;
-    user.password = password;
-
+    const user = this.userRepository.create({ email, password });
     return this.userRepository.save(user);
   }
 

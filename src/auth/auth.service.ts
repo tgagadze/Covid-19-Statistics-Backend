@@ -17,6 +17,11 @@ export class AuthService {
 
   async signUp(signUpDto: SignUpDto) {
     const { email, password: userPassword } = signUpDto;
+    const existingUser = await this.userService.getByEmail(email);
+
+    if (existingUser) {
+      throw new ForbiddenException('email.already.registered');
+    }
     const hashedPassword = await bcrypt.hash(userPassword, 10);
     const user = await this.userService.create(email, hashedPassword);
     const { password: _, ...rest } = user;
