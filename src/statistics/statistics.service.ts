@@ -1,4 +1,3 @@
-import { GET_ALL_LATEST_QUERY } from './queries/get-all-latest.query';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
@@ -8,7 +7,7 @@ import axios from 'axios';
 import { CountryService } from '../country/country.service';
 import { isToday } from '../utils';
 import { Statistics } from './entity/statistics.entity';
-import { GET_TOTAL_STATISTICS_QUERY } from './queries';
+import { GET_TOTAL_STATISTICS_QUERY, GET_ALL_LATEST_QUERY } from './queries';
 
 interface Statistic {
   country: string;
@@ -85,7 +84,7 @@ export class StatisticsService {
     return data?.[0];
   }
 
-  getLatest() {
+  getLatest(): Promise<Statistics[]> {
     return this.statisticsRepository.query(GET_ALL_LATEST_QUERY);
   }
 }
