@@ -4,7 +4,6 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
@@ -23,7 +22,6 @@ import { StatisticsModule } from './statistics/statistics.module';
     CountryModule,
     StatisticsModule,
   ],
-  controllers: [AppController],
   providers: [
     AppService,
     {

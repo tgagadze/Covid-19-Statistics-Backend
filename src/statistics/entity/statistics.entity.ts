@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
   CreateDateColumn,
@@ -11,21 +12,27 @@ import { Country } from '../../country/entity/country.entity';
 
 @Entity()
 export class Statistics {
+  @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty()
   @Column({ type: 'int' })
   confirmed: number;
 
+  @ApiProperty()
   @Column({ type: 'int' })
   recovered: number;
 
+  @ApiProperty()
   @Column({ type: 'int' })
   critical: number;
 
+  @ApiProperty()
   @Column({ type: 'int' })
   deaths: number;
 
+  @ApiProperty()
   @CreateDateColumn({
     type: 'timestamp',
     name: 'created_at',
@@ -33,6 +40,7 @@ export class Statistics {
   })
   createdAt: Date;
 
+  @ApiProperty()
   @UpdateDateColumn({
     type: 'timestamp',
     name: 'updated_at',
@@ -41,6 +49,10 @@ export class Statistics {
   })
   updatedAt: Date;
 
+  @ApiProperty({
+    type: (type) => Country,
+    isArray: true,
+  })
   @ManyToOne(() => Country, (country) => country.statistics)
   country: Country;
 }
